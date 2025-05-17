@@ -18,6 +18,8 @@
 | Dependency | Version | Purpose |
 |------------|---------|---------|
 | fmt | 9.1.0 | Modern formatting library for C++ |
+| Catch2 | 3.4.0 | Modern C++ testing framework |
+| try_catch_guard | Latest | Exception handling library |
 
 ### Development Tools
 
@@ -25,7 +27,7 @@
 |------|---------|
 | Visual Studio Code | Primary IDE |
 | GCC | C++ compiler |
-| Git | Version control |
+| Git | Version control and library download |
 | Midnight Commander (mc) | File management |
 | htop | System monitoring |
 | nano | Text editing |
@@ -110,6 +112,39 @@ project(cpp_integration_test01 VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Option to enable or disable tests
+option(BUILD_TESTS "Build tests" ON)
+
+# Enable testing if BUILD_TESTS is ON
+if(BUILD_TESTS)
+  enable_testing()
+endif()
+
+# Include FetchContent module
+include(FetchContent)
+
+# Download and build Catch2 from GitHub
+FetchContent_Declare(
+  catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG v3.4.0
+)
+FetchContent_MakeAvailable(catch2)
+
+# Check for try_catch_guard library and add it if available
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/libs/try_catch_guard/CMakeLists.txt")
+  message(STATUS "Found try_catch_guard library, adding it to the project")
+  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/libs/try_catch_guard)
+  set(TRY_CATCH_GUARD_AVAILABLE TRUE)
+else()
+  message(WARNING "try_catch_guard library not found")
+  set(TRY_CATCH_GUARD_AVAILABLE FALSE)
+endif()
+
+# Enable Address Sanitizer and Undefined Behavior Sanitizer
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
 ```
 
 ### Dependency Management
@@ -128,10 +163,45 @@ CMakeToolchain
 ### Build Process
 
 The build process is automated through the `build.sh` script, which:
-1. Creates the build directory
-2. Generates Conan files
-3. Configures the project with CMake
-4. Builds the project
+1. Checks for command-line parameters (-test flag for building with tests)
+2. Checks for try_catch_guard library, downloads if needed
+3. Creates the build directory
+4. Generates Conan files
+5. Configures the project with CMake (with or without tests based on parameters)
+6. Builds the project
+
+The script can be run in two modes:
+- `./build.sh`: Builds only the main executable without tests
+- `./build.sh -test`: Builds the main executable and tests
+
+### Test Build Process
+
+The test build process is automated through the `build_test.sh` script, which:
+1. Checks for try_catch_guard library, downloads if needed
+2. Checks for and installs required dependencies
+3. Creates the build directory
+4. Generates Conan files
+5. Configures the project with CMake
+6. Builds the test targets (integration_tests and try_catch_guard_tests)
+
+### Test Execution Process
+
+The test execution process is automated through the `run_test.sh` script, which:
+1. Checks for and installs required dependencies
+2. Builds tests if they don't exist
+3. Executes the try_catch_guard tests if available
+4. Executes the integration tests
+5. Runs all tests with CTest
+6. Reports test results
+
+### External Library Integration
+
+The external library integration process is managed through the `build.sh` script, which:
+1. Checks if the try_catch_guard library exists and is a valid CMake project
+2. If not, creates the necessary directories
+3. Downloads the try_catch_guard library from GitHub
+4. Aborts the build if the download fails
+5. Makes the library available to the project through CMake
 
 ### Containerization
 
@@ -154,6 +224,13 @@ The containerization process is managed through the `build.dist.sh` script, whic
 ### Dependency Constraints
 - External dependencies must be managed through Conan
 - Dependencies should be pinned to specific versions
+- External libraries from GitHub must be properly integrated with CMake
+
+### Testing Constraints
+- Must use Catch2 as the testing framework
+- Must support Address Sanitizer and Undefined Behavior Sanitizer
+- Must modify Catch2's signal handling to work with sanitizers
+- Must integrate and run try_catch_guard tests alongside project tests
 
 ### Containerization Constraints
 - Docker containers must be based on Ubuntu 22.04
@@ -178,7 +255,41 @@ if(EXISTS "${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
     include("${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
 endif()
 
+# Enable Address Sanitizer and Undefined Behavior Sanitizer
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
+
+# Future implementation will include utility files
 add_executable(${APP_BIN_NAME} main.cpp)
+# Will be updated to: add_executable(${APP_BIN_NAME} main.cpp src/utils.cpp)
+
+# Link with try_catch_guard if available
+if(TRY_CATCH_GUARD_AVAILABLE)
+  target_link_libraries(${APP_BIN_NAME} PRIVATE try_catch_guard)
+  target_compile_definitions(${APP_BIN_NAME} PRIVATE TRY_CATCH_GUARD_AVAILABLE)
+endif()
+```
+
+### Catch2 Usage
+
+```cpp
+// Include Catch2 headers
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_session.hpp>
+
+// Test case example
+TEST_CASE("Vector operations work correctly", "[vector]") {
+    std::vector<int> v = {1, 2, 3, 4, 5};
+    
+    SECTION("Vector has the correct size") {
+        REQUIRE(v.size() == 5);
+    }
+    
+    SECTION("Vector elements can be accessed") {
+        REQUIRE(v[0] == 1);
+        REQUIRE(v[1] == 2);
+    }
+}
 ```
 
 ### Conan Usage
@@ -206,10 +317,36 @@ docker tag "$Container_Name" "$Container_Name:$tag"
 ### Local Development
 
 1. Clone the repository
-2. Run `build.sh` to build the application
+2. Run `build.sh` to build the application without tests (automatically downloads try_catch_guard if needed)
+   - Or run `build.sh -test` to build with tests
 3. Execute the application from the build directory
 4. Make changes to the code
-5. Rebuild with `build.sh`
+5. Rebuild with `build.sh` or `build.sh -test` as needed
+
+### Planned Utility Components
+
+The project plans to implement utility components in the following files:
+
+- **src/utils.hpp**: Will contain:
+  - Utility function declarations
+  - Helper class definitions
+  - Common constants and type definitions
+
+- **src/utils.cpp**: Will contain:
+  - Implementations of utility functions
+  - Helper class method implementations
+
+These files are currently in the design phase and will be implemented in the near future.
+
+### Testing Workflow
+
+1. Either:
+   - Run `build.sh -test` to build the application with tests
+   - Or run `build_test.sh` to build only the tests
+2. Run `run_test.sh` to execute all tests (including try_catch_guard tests)
+3. Review test results
+4. Make changes to fix any failing tests
+5. Repeat the process
 
 ### Containerization Workflow
 
@@ -253,6 +390,15 @@ The application expects:
 - Access to command-line arguments
 - Proper environment variables set
 - Appropriate permissions for file access
+
+### Testing Environment
+
+The testing environment requires:
+- Catch2 testing framework
+- try_catch_guard library and its tests
+- Address Sanitizer and Undefined Behavior Sanitizer
+- Modified signal handling for Catch2
+- Proper environment variables for sanitizers
 
 ### Versioning
 

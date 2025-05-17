@@ -68,9 +68,22 @@ fi
 # Turn off command echoing if it was enabled by build_test.sh (redirect to /dev/null to hide the command itself)
 { set +x; } 2>/dev/null
 
+echo -e "\nRunning tests..."
+cd build
+
+# We don't need to manually run try_catch_guard tests here anymore
+# as they are now handled by the CMake custom target
+
 echo -e "\nRunning integration tests..."
-cd build/tests
-# Run the tests
+cd tests
+# Run the integration tests
 ./integration_tests
 
-echo -e "\nTests completed!"
+echo -e "\nAll tests completed!"
+
+# Run only our direct test instead of using CTest
+echo -e "\nRunning direct tests..."
+cd ..
+ctest -R integration_tests_direct --output-on-failure
+
+echo -e "\nAll tests completed!"

@@ -2,6 +2,10 @@
 build/
 build/**
 
+# External folders/libraries/files directory
+external/
+external/**
+
 # Compiled Object files
 *.o
 *.obj
