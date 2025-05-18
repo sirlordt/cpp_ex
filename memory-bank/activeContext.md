@@ -1,8 +1,8 @@
-# Active Context: C++ Demo Application
+# Active Context: C++ Extended Library
 
 ## Current Work Focus
 
-The current focus is on implementing testing capabilities for the C++ Demo Application. This involves setting up a testing framework, creating integration tests, and ensuring proper test execution.
+The current focus is on implementing testing capabilities for the C++ Extended Library. This involves setting up a testing framework, creating integration tests, and ensuring proper test execution.
 
 ### Testing Implementation
 - Added Catch2 as the testing framework
@@ -12,7 +12,20 @@ The current focus is on implementing testing capabilities for the C++ Demo Appli
 
 ## Recent Changes
 
+### Project Structure Reorganization
+- Moved main.cpp from the root directory to src/ directory:
+  - Overwrote the existing src/main.cpp file with the more complete version
+  - Removed the main.cpp file from the project root
+  - Updated CMakeLists.txt to use src/main.cpp instead of main.cpp
+  - Verified that everything compiles and runs correctly
+
 ### Build System Enhancement
+- Improved build.dist.sh script to detect dependencies:
+  - Implemented automatic detection of shared libraries (.so) using ldd
+  - Added mapping of known libraries to their corresponding packages
+  - Ensured that the Dockerfile includes all necessary packages
+  - Verified that the Docker container builds and runs correctly
+
 - Modified build.sh to support optional test building:
   - Added parameter support for -test flag
   - Added conditional CMake configuration based on test flag

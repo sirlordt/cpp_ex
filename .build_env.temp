@@ -1,11 +1,11 @@
 Container_Name="cpp_ex"
 Container_Bin_Name="cpp_ex"
-Container_Bin_Path="/usr/local/bin/${Container_Bin_Name}/"
+Container_Bin_Path="/usr/local/bin/cpp_ex/"
 Container_Description="C++ extended library"
 Container_Mantainer="dev1 <dev001@domain.com>;dev2 <dev2@domain.com>"
-Container_Tags="latest;tag1;tag2;${YYYY}-${MM}-${DD}-${HH}-${MM}-${SS}_${Z}"
+Container_Tags="latest;tag1;tag2;2025-05-18-09-04-38_-0700"
 Container_Group="cpp_ex"
 Container_User="cpp_ex"
 Container_Group_Id=1000
 Container_User_Id=1000
-Container_App_Folders="${Container_Bin_Path}/logs;${Container_Bin_Path}/data/${YYYY}-${MM}-${DD}-${HH}-${MM}-${SS}_${Z}"
+Container_App_Folders="/usr/local/bin/cpp_ex/logs;/usr/local/bin/cpp_ex/data/2025-05-18-09-04-38_-0700"

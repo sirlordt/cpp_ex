@@ -63,7 +63,7 @@ fi
 if [ -f ".dist_build" ]; then
     BIN_NAME=$(awk -F'"' '/^Container_Bin_Name=/{print $2}' .dist_build)
 else
-    BIN_NAME="cpp_integration_test01"
+    BIN_NAME="cpp_ex"
 fi
 
 # Check if the main binary is built

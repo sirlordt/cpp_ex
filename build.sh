@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # build.sh
-# Script to automate the build process for the C++ demo application
+# Script to automate the build process for the C++ Extended Library
 # Usage: ./build.sh [-test] (use -test to build and run tests)
 
 set -e
@@ -10,9 +10,9 @@ set -e
 BUILD_TESTS=0
 if [[ "$1" == "-test" ]]; then
     BUILD_TESTS=1
-    echo "Building C++ demo application with tests..."
+    echo "Building C++ Extended Library with tests..."
 else
-    echo "Building C++ demo application without tests..."
+    echo "Building C++ Extended Library without tests..."
 fi
 
 # Function to check if a directory is a valid CMake project
@@ -83,7 +83,7 @@ echo "Build completed successfully!"
 if [ -f "../.dist_build" ]; then
     BIN_NAME=$(awk -F'"' '/^Container_Bin_Name=/{print $2}' ../.dist_build)
 else
-    BIN_NAME="cpp_integration_test01"
+    BIN_NAME="cpp_ex"
 fi
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # helper.sh
-# Utility for building, running, and inspecting your cpp_integration_test01 container.
+# Utility for building, running, and inspecting your cpp_ex container.
 #
 
 set -e

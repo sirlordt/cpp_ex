@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(cpp_integration_test01 VERSION 0.1.0 LANGUAGES CXX)
+project(cpp_ex VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -59,7 +59,7 @@ foreach(LINE ${DIST_BUILD_CONTENT})
 endforeach()
 
 if(NOT DEFINED APP_BIN_NAME)
-  set(APP_BIN_NAME "cpp_integration_test01")
+  set(APP_BIN_NAME "cpp_ex")
   message(WARNING "Container_Bin_Name not found in .dist_build, using default: ${APP_BIN_NAME}")
 endif()
 
@@ -75,7 +75,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-f
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
 
 # Add executable
-add_executable(${APP_BIN_NAME} main.cpp)
+add_executable(${APP_BIN_NAME} src/main.cpp)
 
 # Link with try_catch_guard if available
 if(TRY_CATCH_GUARD_AVAILABLE)

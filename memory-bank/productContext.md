@@ -1,7 +1,7 @@
-# Product Context: C++ Demo Application
+# Product Context: C++ Extended Library
 
 ## Purpose
-The C++ Demo Application serves as a reference implementation for modern C++ development practices. It addresses the common challenges developers face when setting up C++ projects, particularly around environment consistency, dependency management, and containerization.
+The C++ Extended Library serves as a reference implementation for modern C++ development practices. It addresses the common challenges developers face when setting up C++ projects, particularly around environment consistency, dependency management, and containerization.
 
 ## Problems Solved
 

@@ -1,6 +1,6 @@
 # Git Commands Reference
 
-This file contains useful Git commands for working with the C++ Demo Application project.
+This file contains useful Git commands for working with the C++ Extended Library project.
 
 ## Viewing Staged Changes
 

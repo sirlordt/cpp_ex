@@ -1,13 +1,13 @@
-# System Patterns: C++ Demo Application
+# System Patterns: C++ Extended Library
 
 ## System Architecture
 
 ### Overall Architecture
-The C++ Demo Application follows a simple, modular architecture designed to demonstrate best practices in C++ development and containerization:
+The C++ Extended Library follows a simple, modular architecture designed to demonstrate best practices in C++ development and containerization:
 
 ```
 ┌─────────────────────────────────────────┐
-│            C++ Demo Application         │
+│            C++ Extended Library         │
 ├─────────────────────────────────────────┤
 │                                         │
 │  ┌─────────────┐       ┌─────────────┐  │

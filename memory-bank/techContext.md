@@ -1,4 +1,4 @@
-# Technical Context: C++ Demo Application
+# Technical Context: C++ Extended Library
 
 ## Technologies Used
 
@@ -107,7 +107,7 @@ The build configuration is managed through CMake with the following key settings
 
 ```cmake
 cmake_minimum_required(VERSION 3.15)
-project(cpp_integration_test01 VERSION 0.1.0 LANGUAGES CXX)
+project(cpp_ex VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -379,7 +379,7 @@ The project uses Claude AI assistant for documentation maintenance through a cus
 ### Container Configuration
 
 The container is configured with:
-- A non-root user (`cpp_integration_test01`)
+- A non-root user (`cpp_ex`)
 - Minimal dependencies
 - Environment variables from `.env_dist`
 - Proper permissions for application directories

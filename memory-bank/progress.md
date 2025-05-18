@@ -1,19 +1,20 @@
-# Progress: C++ Demo Application
+# Progress: C++ Extended Library
 
 ## Current Status
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Core Application | ✅ Complete | Basic functionality implemented |
+| Core Application | ✅ Complete | Basic functionality implemented with try_catch_guard |
+| Project Structure | ✅ Complete | Source files organized in src/ directory |
 | Build System | ✅ Complete | CMake configuration working |
 | Dependency Management | ✅ Complete | Conan integration working |
-| Containerization | ✅ Complete | Docker container generation working |
+| Containerization | ✅ Complete | Docker container with automatic dependency detection |
 | VSCode Integration | ✅ Complete | Debug configuration and password-store setup |
 | AI Assistant Integration | ✅ Complete | Claude AI configured with custom instructions |
 | Documentation | 🟡 In Progress | Memory bank maintenance ongoing |
 | Integration Tests | ✅ Complete | Basic tests implemented with Catch2 |
 | Unit Tests | 🟡 In Progress | Basic structure in place, more tests needed |
-| External Libraries | ✅ Complete | try_catch_guard library integrated |
+| External Libraries | ✅ Complete | try_catch_guard library integrated and used |
 | CI/CD Pipeline | ❌ Not Started | No CI/CD configuration yet |
 
 ## What Works
@@ -21,7 +22,8 @@
 ### Core Application
 - Basic "Hello World" functionality
 - Command-line argument handling
-- Proper project structure
+- try_catch_guard exception handling
+- Proper project structure with source files in src/ directory
 
 ### Build System
 - CMake configuration with modern practices
@@ -36,7 +38,8 @@
 
 ### Containerization
 - Docker container generation
-- Minimal dependency analysis
+- Automatic shared library dependency detection
+- Package dependency resolution for container
 - Environment variable processing
 - Proper user/group configuration
 - Multiple tagging support
@@ -45,12 +48,14 @@
 
 ### Build System Enhancements
 - [x] Add option to build without tests
+- [x] Improve dependency detection in build.dist.sh
 - [ ] Improve error handling in build scripts
 - [ ] Add more configuration options
 
 ### Core Application Enhancements
+- [x] Reorganize code structure (move main.cpp to src/)
+- [x] Utilize try_catch_guard library functionality
 - [ ] Implement utility functions in utils.hpp and utils.cpp
-- [ ] Utilize try_catch_guard library functionality
 - [ ] Add more comprehensive examples of C++ features
 - [ ] Implement error handling
 - [ ] Add logging functionality
@@ -117,6 +122,8 @@
 
 | Date | Milestone | Status |
 |------|-----------|--------|
+| 5/18/2025 | Code Structure Reorganization | ✅ Complete |
+| 5/18/2025 | Container Dependency Detection | ✅ Complete |
 | 5/16/2025 | Optional Test Building | ✅ Complete |
 | 5/16/2025 | External Library Integration | ✅ Complete |
 | 5/16/2025 | Testing Framework Integration | ✅ Complete |
@@ -179,11 +186,26 @@
 - Added auto-install extensions task that runs on folder open
 - Improved tasks.json to use build.sh script for building
 
+### Code Structure Reorganization
+- Moved main.cpp from the root directory to src/ directory
+- Overwrote the existing src/main.cpp file with the more complete version
+- Removed the main.cpp file from the project root
+- Updated CMakeLists.txt to use src/main.cpp instead of main.cpp
+- Verified that everything compiles and runs correctly
+- Improved project organization by keeping source files in the src/ directory
+
+### Container Dependency Detection
+- Enhanced build.dist.sh script to automatically detect shared library dependencies
+- Implemented ldd analysis to identify required .so files
+- Created a mapping system for known libraries to their corresponding packages
+- Added logic to determine which Debian packages provide the detected libraries
+- Ensured the Dockerfile includes all necessary packages for the application to run
+- Verified that the Docker container builds and runs correctly with all dependencies
+
 ## Next Milestones
 
 | Target Date | Milestone | Status |
 |-------------|-----------|--------|
-| TBD | try_catch_guard Library Utilization | 🟡 In Progress |
 | TBD | Enhanced Test Coverage | 🟡 In Progress |
 | TBD | Enhanced C++ Features | ❌ Not Started |
 | TBD | CI/CD Integration | ❌ Not Started |

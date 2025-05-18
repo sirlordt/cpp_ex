@@ -1,301 +1,301 @@
-Creating project 'cpp_integration_test01' from template 'cpp_demo'...
+Creating project 'cpp_ex' from template 'cpp_demo'...
  * Operation: Create
     From: cpp_demo
-    To: cpp_integration_test01
+    To: cpp_ex
     Result: Success
 
  * Operation: Create
     From: cpp_demo/build
-    To: cpp_integration_test01/build
+    To: cpp_ex/build
     Result: Success
 
 Copying files from template...
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: CMakeUserPresets.json
     Result: Success
 
  * Operation: Create
     From: cpp_demo/memory-bank
-    To: cpp_integration_test01/memory-bank
+    To: cpp_ex/memory-bank
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/memory-bank/
-    To: cpp_integration_test01/memory-bank/
+    To: cpp_ex/memory-bank/
     File: systemPatterns.md
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/memory-bank/
-    To: cpp_integration_test01/memory-bank/
+    To: cpp_ex/memory-bank/
     File: productContext.md
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/memory-bank/
-    To: cpp_integration_test01/memory-bank/
+    To: cpp_ex/memory-bank/
     File: activeContext.md
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/memory-bank/
-    To: cpp_integration_test01/memory-bank/
+    To: cpp_ex/memory-bank/
     File: projectbrief.md
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/memory-bank/
-    To: cpp_integration_test01/memory-bank/
+    To: cpp_ex/memory-bank/
     File: git_commands.md
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/memory-bank/
-    To: cpp_integration_test01/memory-bank/
+    To: cpp_ex/memory-bank/
     File: techContext.md
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/memory-bank/
-    To: cpp_integration_test01/memory-bank/
+    To: cpp_ex/memory-bank/
     File: progress.md
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: README.md
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: build.dist.sh
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: inject_cline_custom_instructions.sh
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: build.sh
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: CMakeLists.txt
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: .dist_build
     Result: Success
 
  * Operation: Create
     From: cpp_demo/.vscode
-    To: cpp_integration_test01/.vscode
+    To: cpp_ex/.vscode
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/.vscode/
-    To: cpp_integration_test01/.vscode/
+    To: cpp_ex/.vscode/
     File: tasks.json
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/.vscode/
-    To: cpp_integration_test01/.vscode/
+    To: cpp_ex/.vscode/
     File: extensions.json
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/.vscode/
-    To: cpp_integration_test01/.vscode/
+    To: cpp_ex/.vscode/
     File: launch.json
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/.vscode/
-    To: cpp_integration_test01/.vscode/
+    To: cpp_ex/.vscode/
     File: settings.json
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: conanfile.txt
     Result: Success
 
  * Operation: Create
     From: cpp_demo/src
-    To: cpp_integration_test01/src
+    To: cpp_ex/src
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/src/
-    To: cpp_integration_test01/src/
+    To: cpp_ex/src/
     File: main.cpp
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: helper.sh
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: main.cpp
     Result: Success
 
  * Operation: Copy
     From: cpp_demo/
-    To: cpp_integration_test01/
+    To: cpp_ex/
     File: .env_dist
     Result: Success
 
 Replacing template name occurrences...
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/memory-bank/techContext.md
+    To: cpp_ex
+    File: cpp_ex/memory-bank/techContext.md
     Line: 108
     Column: 8
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/memory-bank/techContext.md
+    To: cpp_ex
+    File: cpp_ex/memory-bank/techContext.md
     Line: 245
     Column: 20
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/build.dist.sh
+    To: cpp_ex
+    File: cpp_ex/build.dist.sh
     Line: 17
     Column: 36
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/build.dist.sh
+    To: cpp_ex
+    File: cpp_ex/build.dist.sh
     Line: 18
     Column: 34
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/build.dist.sh
+    To: cpp_ex
+    File: cpp_ex/build.dist.sh
     Line: 62
     Column: 27
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/build.dist.sh
+    To: cpp_ex
+    File: cpp_ex/build.dist.sh
     Line: 64
     Column: 42
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/build.dist.sh
+    To: cpp_ex
+    File: cpp_ex/build.dist.sh
     Line: 109
     Column: 20
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/build.sh
+    To: cpp_ex
+    File: cpp_ex/build.sh
     Line: 32
     Column: 14
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/CMakeLists.txt
+    To: cpp_ex
+    File: cpp_ex/CMakeLists.txt
     Line: 2
     Column: 8
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/CMakeLists.txt
+    To: cpp_ex
+    File: cpp_ex/CMakeLists.txt
     Line: 17
     Column: 22
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/.dist_build
+    To: cpp_ex
+    File: cpp_ex/.dist_build
     Line: 1
     Column: 16
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/.dist_build
+    To: cpp_ex
+    File: cpp_ex/.dist_build
     Line: 2
     Column: 20
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/.dist_build
+    To: cpp_ex
+    File: cpp_ex/.dist_build
     Line: 7
     Column: 17
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/.dist_build
+    To: cpp_ex
+    File: cpp_ex/.dist_build
     Line: 8
     Column: 16
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/.vscode/launch.json
+    To: cpp_ex
+    File: cpp_ex/.vscode/launch.json
     Line: 8
     Column: 49
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/helper.sh
+    To: cpp_ex
+    File: cpp_ex/helper.sh
     Line: 4
     Column: 53
     Result: Success
 
  * Operation: Replace
     From: cpp_demo
-    To: cpp_integration_test01
-    File: cpp_integration_test01/.env_dist
+    To: cpp_ex
+    File: cpp_ex/.env_dist
     Line: 1
     Column: 9
     Result: Success
@@ -305,25 +305,25 @@ Found launch.json file, processing program lines...
  * Operation: Modify
     From: Comment out all program lines
     To: 
-    File: cpp_integration_test01/.vscode/launch.json
+    File: cpp_ex/.vscode/launch.json
     Result: Success
 
  * Operation: Modify
     From: Add project-specific program line
     To: 
-    File: cpp_integration_test01/.vscode/launch.json
+    File: cpp_ex/.vscode/launch.json
     Result: Success
 
  * Operation: Modify
     From: Clean up duplicate project name entries
     To: 
-    File: cpp_integration_test01/.vscode/launch.json
+    File: cpp_ex/.vscode/launch.json
     Result: Success
 
  * Operation: Modify
     From: Add template program line
     To: 
-    File: cpp_integration_test01/.vscode/launch.json
+    File: cpp_ex/.vscode/launch.json
     Result: Success
 
-Project 'cpp_integration_test01' created successfully!
+Project 'cpp_ex' created successfully!

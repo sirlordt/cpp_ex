@@ -1,7 +1,7 @@
-# Project Brief: C++ Demo Application
+# Project Brief: C++ Extended Library
 
 ## Project Overview
-This project is a C++ demo application that serves as a template for modern C++ development using containerization. It demonstrates best practices for C++ development environments, build systems, and containerization.
+This project is a C++ Extended Library that serves as a template for modern C++ development using containerization. It demonstrates best practices for C++ development environments, build systems, and containerization.
 
 ## Core Requirements
 1. Provide a complete C++ development environment with modern tooling
