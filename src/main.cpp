@@ -6,6 +6,10 @@
 // Include the try_catch_guard header
 #include "try_catch_guard.hpp"
 
+// Include the safe pointer headers
+#include "libs/core/safe_shared_ptr.hpp"
+#include "libs/core/safe_unique_ptr.hpp"
+
 // Function that will cause a null pointer exception
 void causeNullPointerException()
 {
@@ -17,6 +21,98 @@ void causeNullPointerException()
 void throwStandardException()
 {
     throw std::runtime_error("This is a standard exception");
+}
+
+void exampleMakeSafeShared()
+{
+    // Create a SafeSharedPtr with an object
+    auto ptr = cpp_ex::makeSafeShared<int>(42);
+    std::cout << "Value: " << *ptr << std::endl; // OK
+
+    // Create a null SafeSharedPtr
+    cpp_ex::SafeSharedPtr<int> nullPtr;
+
+    try
+    {
+        // This will throw an exception
+        std::cout << "Value: " << *nullPtr << std::endl;
+    }
+    catch (const cpp_ex::exceptions::NullPointerAccessException &e)
+    {
+        std::cout << "Exception caught: " << e.what() << std::endl;
+    }
+
+    // Example with a class
+    class Person
+    {
+    public:
+        std::string name;
+        Person(const std::string &n) : name(n) {}
+        void greet() { std::cout << "Hello, I am " << name << std::endl; }
+    };
+
+    auto person = cpp_ex::makeSafeShared<Person>("John");
+    person->greet(); // OK
+
+    cpp_ex::SafeSharedPtr<Person> nullPerson;
+    try
+    {
+        // This will throw an exception
+        nullPerson->greet();
+    }
+    catch (const cpp_ex::exceptions::NullPointerAccessException &e)
+    {
+        std::cout << "Exception caught: " << e.what() << std::endl;
+    }
+}
+
+// Usage example
+void exampleMakeSafeUnique()
+{
+    // Create a SafeUniquePtr with an object
+    auto ptr = cpp_ex::makeSafeUnique<int>(42);
+    std::cout << "Value: " << *ptr << std::endl; // OK
+
+    // Create a null SafeUniquePtr
+    cpp_ex::SafeUniquePtr<int> nullPtr;
+
+    try
+    {
+        // This will throw an exception
+        std::cout << "Value: " << *nullPtr << std::endl;
+    }
+    catch (const cpp_ex::exceptions::NullPointerAccessException &e)
+    {
+        std::cout << "Exception caught: " << e.what() << std::endl;
+    }
+
+    // Example with a class
+    class Person
+    {
+    public:
+        std::string name;
+        Person(const std::string &n) : name(n) {}
+        void greet() { std::cout << "Hello, I am " << name << std::endl; }
+    };
+
+    auto person = cpp_ex::makeSafeUnique<Person>("John");
+    person->greet(); // OK
+
+    cpp_ex::SafeUniquePtr<Person> nullPerson;
+    try
+    {
+        // This will throw an exception
+        nullPerson->greet();
+    }
+    catch (const cpp_ex::exceptions::NullPointerAccessException &e)
+    {
+        std::cout << "Exception caught: " << e.what() << std::endl;
+    }
+
+    // Array example
+    auto arr = cpp_ex::makeSafeUnique<int[]>(5);
+    arr[0] = 10; // Using the array access operator
+    std::cout << "Array value: " << arr[0] << std::endl;
 }
 
 int main(int argc, char *argv[])
@@ -59,6 +155,12 @@ int main(int argc, char *argv[])
     {
         std::cout << "Caught standard exception: " << e.what() << std::endl;
     }
+
+    std::cout << "\nTesting SafeSharedPtr:" << std::endl;
+    exampleMakeSafeShared();
+
+    std::cout << "\nTesting SafeUniquePtr:" << std::endl;
+    exampleMakeSafeUnique();
 
     std::cout << "\nProgram completed successfully!" << std::endl;
     return 0;

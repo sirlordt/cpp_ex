@@ -1,5 +1,27 @@
 # Registro de Cambios
 
+## 2025-05-18 09:48 (America/Los_Angeles, UTC-7:00)
+
+### Integración de Biblioteca Core
+
+#### Estructura del Proyecto
+* Añadidos archivos de encabezado de la biblioteca core en src/libs/core/
+* Creada biblioteca INTERFACE en CMakeLists.txt para bibliotecas de solo encabezado
+* Corregidas inconsistencias de namespace en los archivos de encabezado
+* Actualizado main.cpp para usar las clases y funciones de la biblioteca core
+* Añadidos ejemplos de uso para SafeSharedPtr y SafeUniquePtr
+
+#### CMakeLists.txt
+* Añadida biblioteca INTERFACE cpp_ex_core para bibliotecas de solo encabezado
+* Configurados directorios de inclusión para hacer disponibles los encabezados en todo el proyecto
+* Vinculado el ejecutable principal con la biblioteca core
+
+#### Implementación de SafeUniquePtr
+* Añadida especialización de array para la clase SafeUniquePtr
+* Implementado operador de acceso a array con verificaciones de puntero nulo
+* Corregida función makeSafeUnique para tipos de array
+* Añadidos ejemplos completos que demuestran el uso
+
 ## 2025-05-18 09:12 (America/Los_Angeles, UTC-7:00)
 
 ### Reorganización de la Estructura del Código

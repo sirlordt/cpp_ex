@@ -1,5 +1,27 @@
 # Changelog
 
+## 2025-05-18 09:48 (America/Los_Angeles, UTC-7:00)
+
+### Core Library Integration
+
+#### Project Structure
+* Added core library headers in src/libs/core/
+* Created INTERFACE library in CMakeLists.txt for header-only libraries
+* Fixed namespace inconsistencies in header files
+* Updated main.cpp to use the core library classes and functions
+* Added examples for SafeSharedPtr and SafeUniquePtr usage
+
+#### CMakeLists.txt
+* Added cpp_ex_core INTERFACE library for header-only libraries
+* Configured include directories to make headers available project-wide
+* Linked the main executable with the core library
+
+#### SafeUniquePtr Implementation
+* Added array specialization for SafeUniquePtr class
+* Implemented array access operator with null pointer checks
+* Fixed makeSafeUnique function for array types
+* Added comprehensive examples demonstrating usage
+
 ## 2025-05-18 09:12 (America/Los_Angeles, UTC-7:00)
 
 ### Code Structure Reorganization

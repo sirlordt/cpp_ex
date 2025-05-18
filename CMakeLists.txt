@@ -74,8 +74,16 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
 
+# Add core library headers (header-only)
+add_library(cpp_ex_core INTERFACE)
+target_include_directories(cpp_ex_core INTERFACE
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/libs)
+
 # Add executable
 add_executable(${APP_BIN_NAME} src/main.cpp)
+
+# Link with core library (header-only)
+target_link_libraries(${APP_BIN_NAME} INTERFACE cpp_ex_core)
 
 # Link with try_catch_guard if available
 if(TRY_CATCH_GUARD_AVAILABLE)

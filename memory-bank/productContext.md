@@ -21,6 +21,10 @@ The C++ Extended Library serves as a reference implementation for modern C++ dev
 - **Problem**: Containerizing C++ applications often results in bloated images with unnecessary dependencies.
 - **Solution**: Provides scripts to analyze dependencies and create minimal Docker containers with only required libraries.
 
+### 6. Memory Safety in C++
+- **Problem**: C++ manual memory management can lead to memory leaks, null pointer dereferences, and other memory-related issues.
+- **Solution**: Implements safe pointer wrappers (SafeSharedPtr and SafeUniquePtr) that throw exceptions on null pointer access, providing better error handling and debugging.
+
 ### 5. Development-to-Production Consistency
 - **Problem**: Ensuring consistency between development and production environments.
 - **Solution**: The containerization approach ensures that the production environment closely mirrors the development environment.

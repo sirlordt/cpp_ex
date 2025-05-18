@@ -114,6 +114,11 @@ The containerization process follows a dependency-based approach:
 - **Rationale**: Prevents conflicts between Catch2's signal handlers and sanitizers.
 - **Implementation**: Created modify_catch2.sh script to patch Catch2's signal handling code.
 
+### 12. Header-Only Core Library
+- **Decision**: Implement core utilities as header-only libraries.
+- **Rationale**: Simplifies integration, reduces build complexity, and allows for template specialization.
+- **Implementation**: Created INTERFACE libraries in CMake for cpp_ex_core and implemented template classes in header files.
+
 ## Design Patterns
 
 ### 1. Builder Pattern
@@ -210,6 +215,10 @@ The containerization process follows a dependency-based approach:
 - **Command-line Argument Handling**: Processes user inputs
 - **External Libraries**:
   - **try_catch_guard**: Exception handling library from GitHub
+- **Core Library Components**:
+  - **src/libs/core/common.hpp**: Common exceptions and utilities
+  - **src/libs/core/safe_shared_ptr.hpp**: Safe shared pointer implementation
+  - **src/libs/core/safe_unique_ptr.hpp**: Safe unique pointer implementation with array support
 - **Planned Utility Components**:
   - **src/utils.hpp**: Will contain utility function declarations and classes
   - **src/utils.cpp**: Will contain utility function implementations

@@ -15,6 +15,7 @@
 | Integration Tests | ✅ Complete | Basic tests implemented with Catch2 |
 | Unit Tests | 🟡 In Progress | Basic structure in place, more tests needed |
 | External Libraries | ✅ Complete | try_catch_guard library integrated and used |
+| Core Library | ✅ Complete | Safe pointer implementations in src/libs/core/ |
 | CI/CD Pipeline | ❌ Not Started | No CI/CD configuration yet |
 
 ## What Works
@@ -24,6 +25,8 @@
 - Command-line argument handling
 - try_catch_guard exception handling
 - Proper project structure with source files in src/ directory
+- Safe pointer implementations (SafeSharedPtr and SafeUniquePtr)
+- Array handling with SafeUniquePtr
 
 ### Build System
 - CMake configuration with modern practices
@@ -122,6 +125,7 @@
 
 | Date | Milestone | Status |
 |------|-----------|--------|
+| 5/18/2025 | Core Library Integration | ✅ Complete |
 | 5/18/2025 | Code Structure Reorganization | ✅ Complete |
 | 5/18/2025 | Container Dependency Detection | ✅ Complete |
 | 5/16/2025 | Optional Test Building | ✅ Complete |
@@ -201,6 +205,23 @@
 - Added logic to determine which Debian packages provide the detected libraries
 - Ensured the Dockerfile includes all necessary packages for the application to run
 - Verified that the Docker container builds and runs correctly with all dependencies
+
+### Core Library Integration
+- Added core library headers in src/libs/core/:
+  - Implemented SafeSharedPtr template class for safe shared pointer handling
+  - Implemented SafeUniquePtr template class for safe unique pointer handling
+  - Added array specialization for SafeUniquePtr
+  - Created common exception classes for null pointer access
+  - Fixed namespace inconsistencies in header files
+- Updated CMakeLists.txt for header-only libraries:
+  - Added cpp_ex_core INTERFACE library
+  - Configured include directories to make headers available project-wide
+  - Linked the main executable with the core library
+- Updated main.cpp to demonstrate core library usage:
+  - Added examples for SafeSharedPtr and SafeUniquePtr
+  - Demonstrated exception handling for null pointer access
+  - Added array usage example with SafeUniquePtr
+  - Organized examples into separate functions
 
 ## Next Milestones
 

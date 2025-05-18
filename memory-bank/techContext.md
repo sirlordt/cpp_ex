@@ -20,6 +20,7 @@
 | fmt | 9.1.0 | Modern formatting library for C++ |
 | Catch2 | 3.4.0 | Modern C++ testing framework |
 | try_catch_guard | Latest | Exception handling library |
+| cpp_ex_core | N/A | Internal header-only library for safe pointers |
 
 ### Development Tools
 
@@ -133,14 +134,23 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(catch2)
 
 # Check for try_catch_guard library and add it if available
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/libs/try_catch_guard/CMakeLists.txt")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/libs/try_catch_guard/src/try_catch_guard.hpp")
   message(STATUS "Found try_catch_guard library, adding it to the project")
-  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/libs/try_catch_guard)
+
+  # Create an interface library for try_catch_guard
+  add_library(try_catch_guard INTERFACE)
+  target_include_directories(try_catch_guard INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/libs/try_catch_guard/src)
   set(TRY_CATCH_GUARD_AVAILABLE TRUE)
 else()
-  message(WARNING "try_catch_guard library not found")
+  message(WARNING "try_catch_guard library not found at ${CMAKE_CURRENT_SOURCE_DIR}/external/libs/try_catch_guard/src/try_catch_guard.hpp")
   set(TRY_CATCH_GUARD_AVAILABLE FALSE)
 endif()
+
+# Add core library headers
+add_library(cpp_ex_core INTERFACE)
+target_include_directories(cpp_ex_core INTERFACE
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/libs)
 
 # Enable Address Sanitizer and Undefined Behavior Sanitizer
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
@@ -259,14 +269,21 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
 
+# Add executable
+add_executable(${APP_BIN_NAME} src/main.cpp)
 # Future implementation will include utility files
-add_executable(${APP_BIN_NAME} main.cpp)
-# Will be updated to: add_executable(${APP_BIN_NAME} main.cpp src/utils.cpp)
+# Will be updated to: add_executable(${APP_BIN_NAME} src/main.cpp src/utils.cpp)
+
+# Link with core library (header-only)
+target_link_libraries(${APP_BIN_NAME} INTERFACE cpp_ex_core)
 
 # Link with try_catch_guard if available
 if(TRY_CATCH_GUARD_AVAILABLE)
   target_link_libraries(${APP_BIN_NAME} PRIVATE try_catch_guard)
   target_compile_definitions(${APP_BIN_NAME} PRIVATE TRY_CATCH_GUARD_AVAILABLE)
+
+  # Add include directory for the main executable
+  target_include_directories(${APP_BIN_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external/libs/try_catch_guard/src)
 endif()
 ```
 
