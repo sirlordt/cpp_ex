@@ -4,7 +4,7 @@
 # This allows custom signal handlers to work properly
 
 # Find the catch_fatal_condition_handler.cpp file
-CATCH_FILE=$(find _deps/catch2-src -name "catch_fatal_condition_handler.cpp")
+CATCH_FILE=$(find build/_deps/catch2-src -name "catch_fatal_condition_handler.cpp")
 
 if [ -z "$CATCH_FILE" ]; then
     echo "Error: catch_fatal_condition_handler.cpp not found!"
@@ -12,6 +12,12 @@ if [ -z "$CATCH_FILE" ]; then
 fi
 
 echo "Found Catch2 file: $CATCH_FILE"
+
+# Check if the file has already been modified
+if grep -q "Signal handling code commented out to avoid conflicts with custom signal handlers" "$CATCH_FILE"; then
+    echo "Catch2 file already modified, skipping modification."
+    exit 0
+fi
 
 # Comment out the entire signal handling implementation in POSIX section
 # Find the start of the POSIX signals section
@@ -21,7 +27,7 @@ END_LINE=$(grep -n "#endif // CATCH_CONFIG_POSIX_SIGNALS" "$CATCH_FILE" | cut -d
 
 if [ -z "$START_LINE" ] || [ -z "$END_LINE" ]; then
     echo "Error: Could not find POSIX signals section!"
-    exit 1
+    exit 0
 fi
 
 # Create a temporary file

@@ -2,17 +2,35 @@
 
 # build.sh
 # Script to automate the build process for the C++ Extended Library
-# Usage: ./build.sh [-test] (use -test to build and run tests)
+# Usage: ./build.sh [-test] [--no-asan] (use -test to build and run tests, --no-asan to disable Address Sanitizer)
 
 set -e
 
-# Check if -test parameter was passed
+# Parse command line arguments
 BUILD_TESTS=0
-if [[ "$1" == "-test" ]]; then
-    BUILD_TESTS=1
+ENABLE_ASAN=1
+
+for arg in "$@"; do
+    case $arg in
+        -test)
+            BUILD_TESTS=1
+            ;;
+        --no-asan)
+            ENABLE_ASAN=0
+            ;;
+    esac
+done
+
+if [ $BUILD_TESTS -eq 1 ]; then
     echo "Building C++ Extended Library with tests..."
 else
     echo "Building C++ Extended Library without tests..."
+fi
+
+if [ $ENABLE_ASAN -eq 1 ]; then
+    echo "Address Sanitizer enabled"
+else
+    echo "Address Sanitizer disabled"
 fi
 
 # Function to check if a directory is a valid CMake project
@@ -65,13 +83,26 @@ conan install .. --output-folder=. --build=missing
 
 # Configure with CMake
 echo "Configuring with CMake..."
+
+# Build the CMake command with options
+CMAKE_OPTS="-DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug"
+
+# Add test option
 if [ $BUILD_TESTS -eq 1 ]; then
-    # Build with tests
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON
+    CMAKE_OPTS="$CMAKE_OPTS -DBUILD_TESTS=ON"
 else
-    # Build without tests
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=OFF
+    CMAKE_OPTS="$CMAKE_OPTS -DBUILD_TESTS=OFF"
 fi
+
+# Add ASAN option
+if [ $ENABLE_ASAN -eq 1 ]; then
+    CMAKE_OPTS="$CMAKE_OPTS -DENABLE_ASAN=ON"
+else
+    CMAKE_OPTS="$CMAKE_OPTS -DENABLE_ASAN=OFF"
+fi
+
+# Run CMake with all options
+cmake .. $CMAKE_OPTS
 
 # Build the project
 echo "Building the project..."

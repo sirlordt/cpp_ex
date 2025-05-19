@@ -1,3 +1,10 @@
+/**
+ * @file map.hpp
+ * @brief Enhanced map implementation with additional utility methods
+ * @author cpp_ex team
+ * @date 2025-05-18
+ */
+
 #ifndef CPPEX_MAP_HPP
 #define CPPEX_MAP_HPP
 
@@ -5,16 +12,49 @@
 #include <functional>
 #include <utility>
 #include <initializer_list>
-#include "vector.hpp" // Incluimos la clase Vector
+#include "vector.hpp" // Include Vector class
 
 namespace cpp_ex
 {
 
+    /**
+     * @brief Enhanced wrapper for std::map with additional utility methods
+     *
+     * This class provides a wrapper around std::map with additional utility methods
+     * for common operations like getting keys, values, filtering, mapping values,
+     * and set operations (union, intersection, difference).
+     *
+     * @tparam Key Type of the keys
+     * @tparam Value Type of the mapped values
+     * @tparam Compare Comparison function object type, defaults to std::less<Key>
+     *
+     * @example
+     * ```cpp
+     * // Create a map with some values
+     * cpp_ex::Map<std::string, int> scores = {
+     *     {"Alice", 95},
+     *     {"Bob", 87},
+     *     {"Charlie", 92}
+     * };
+     *
+     * // Get all keys
+     * auto names = scores.getKeys();
+     *
+     * // Filter entries
+     * auto highScores = scores.filterEntries([](const std::string& name, int score) {
+     *     return score >= 90;
+     * });
+     * ```
+     */
     template <typename Key, typename Value, typename Compare = std::less<Key>>
     class Map
     {
     private:
         std::map<Key, Value, Compare> data;
+
+        // Declare friendship with all other Map instantiations
+        template <typename K, typename V, typename C>
+        friend class Map;
 
     public:
         // Tipos (aliases)

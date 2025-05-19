@@ -1,3 +1,10 @@
+/**
+ * @file string.hpp
+ * @brief Enhanced string implementation with additional utility methods
+ * @author cpp_ex team
+ * @date 2025-05-18
+ */
+
 #ifndef CPPEX_STRING_H
 #define CPPEX_STRING_H
 
@@ -10,10 +17,38 @@
 namespace cpp_ex
 {
 
+    /**
+     * @brief Enhanced wrapper for std::string with additional utility methods
+     *
+     * This class provides a wrapper around std::string with additional utility methods
+     * for common string operations like trimming, case conversion, splitting,
+     * character counting, and other string manipulations.
+     *
+     * @example
+     * ```cpp
+     * // Create a string
+     * cpp_ex::String text = "  Hello, World!  ";
+     *
+     * // Trim whitespace
+     * auto trimmed = text.trim(); // "Hello, World!"
+     *
+     * // Convert to uppercase
+     * auto upper = text.toUpperCase(); // "  HELLO, WORLD!  "
+     *
+     * // Split by delimiter
+     * auto parts = text.trim().split(","); // ["Hello", " World!"]
+     *
+     * // Count character occurrences
+     * auto charCount = text.countCharacters();
+     * ```
+     */
     class String
     {
     private:
         std::string data;
+
+        // Declare friendship with all other String instantiations
+        // friend class String;
 
     public:
         // Constructors
@@ -21,7 +56,8 @@ namespace cpp_ex
         String(const std::string &str) : data(str) {}
         String(const char *str) : data(str) {}
         String(const String &other) : data(other.data) {}
-        String(char c, size_t count = 1) : data(count, c) {}
+        // Changed parameter order to match std::string constructor (count, c)
+        String(size_t count, char c) : data(std::string(count, c)) {}
 
         // Assignment operators
         String &operator=(const std::string &str)
@@ -135,24 +171,20 @@ namespace cpp_ex
             return *this;
         }
 
-        // Overload to erase a single character at the given position
-        String &erase(size_t pos)
+        // Method to erase a single character at the given position
+        String &eraseChar(size_t pos)
         {
             data.erase(pos, 1);
             return *this;
         }
 
-        // Overload to erase a range using iterators
-        String &erase(std::string::iterator first, std::string::iterator last)
+        // Method to erase a range from first_pos to last_pos
+        String &eraseRange(size_t first_pos, size_t last_pos)
         {
-            data.erase(first, last);
-            return *this;
-        }
-
-        // Overload to erase a single character at the given iterator position
-        String &erase(std::string::iterator position)
-        {
-            data.erase(position);
+            if (first_pos <= last_pos && last_pos <= data.length())
+            {
+                data.erase(first_pos, last_pos - first_pos);
+            }
             return *this;
         }
 
@@ -412,6 +444,7 @@ namespace cpp_ex
 
             for (char c : data)
             {
+                // Using the updated constructor signature (count, char)
                 result.pushBack(String(1, c));
             }
 

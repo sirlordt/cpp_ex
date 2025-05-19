@@ -9,6 +9,7 @@
 // Include the safe pointer headers
 #include "libs/core/safe_shared_ptr.hpp"
 #include "libs/core/safe_unique_ptr.hpp"
+#include "libs/core/string.hpp"
 
 // Function that will cause a null pointer exception
 void causeNullPointerException()
@@ -32,12 +33,12 @@ void exampleMakeSafeShared()
     // Create a null SafeSharedPtr
     cpp_ex::SafeSharedPtr<int> nullPtr;
 
-    try
+    _try
     {
         // This will throw an exception
         std::cout << "Value: " << *nullPtr << std::endl;
     }
-    catch (const cpp_ex::exceptions::NullPointerAccessException &e)
+    _catch(cpp_ex::exceptions::NullPointerAccessException, e)
     {
         std::cout << "Exception caught: " << e.what() << std::endl;
     }
@@ -55,12 +56,12 @@ void exampleMakeSafeShared()
     person->greet(); // OK
 
     cpp_ex::SafeSharedPtr<Person> nullPerson;
-    try
+    _try
     {
         // This will throw an exception
         nullPerson->greet();
     }
-    catch (const cpp_ex::exceptions::NullPointerAccessException &e)
+    _catch(cpp_ex::exceptions::NullPointerAccessException, e)
     {
         std::cout << "Exception caught: " << e.what() << std::endl;
     }
@@ -76,12 +77,12 @@ void exampleMakeSafeUnique()
     // Create a null SafeUniquePtr
     cpp_ex::SafeUniquePtr<int> nullPtr;
 
-    try
+    _try
     {
         // This will throw an exception
         std::cout << "Value: " << *nullPtr << std::endl;
     }
-    catch (const cpp_ex::exceptions::NullPointerAccessException &e)
+    _catch(cpp_ex::exceptions::NullPointerAccessException, e)
     {
         std::cout << "Exception caught: " << e.what() << std::endl;
     }
@@ -99,12 +100,12 @@ void exampleMakeSafeUnique()
     person->greet(); // OK
 
     cpp_ex::SafeUniquePtr<Person> nullPerson;
-    try
+    _try
     {
         // This will throw an exception
         nullPerson->greet();
     }
-    catch (const cpp_ex::exceptions::NullPointerAccessException &e)
+    _catch(cpp_ex::exceptions::NullPointerAccessException, e)
     {
         std::cout << "Exception caught: " << e.what() << std::endl;
     }
@@ -117,6 +118,17 @@ void exampleMakeSafeUnique()
 
 int main(int argc, char *argv[])
 {
+
+    cpp_ex::String str("hello");
+    auto vec = str.toStringVector();
+
+    // Print the content of the vector for debugging
+    std::cout << "Vector size: " << vec.getSize() << std::endl;
+    for (size_t i = 0; i < vec.getSize(); ++i)
+    {
+        std::cout << "vec[" << i << "] = '" << vec[i].getString() << "'" << std::endl;
+    }
+
     std::cout << "Hello from C++ extended library!" << std::endl;
 
     std::vector<std::string> args(argv, argv + argc);

@@ -1,3 +1,10 @@
+/**
+ * @file vector.hpp
+ * @brief Enhanced vector implementation with additional utility methods
+ * @author cpp_ex team
+ * @date 2025-05-18
+ */
+
 #ifndef CPPEX_VECTOR_HPP
 #define CPPEX_VECTOR_HPP
 
@@ -6,15 +13,44 @@
 #include <functional>
 #include <stdexcept>
 #include <initializer_list>
+#include <numeric> // Para std::accumulate
 
 namespace cpp_ex
 {
 
+    /**
+     * @brief Enhanced wrapper for std::vector with additional utility methods
+     *
+     * This class provides a wrapper around std::vector with additional utility methods
+     * for common operations like filtering, mapping, reducing, and other functional
+     * programming patterns.
+     *
+     * @tparam T Type of the elements
+     *
+     * @example
+     * ```cpp
+     * // Create a vector with some values
+     * cpp_ex::Vector<int> numbers = {1, 2, 3, 4, 5};
+     *
+     * // Filter even numbers
+     * auto evenNumbers = numbers.filter([](int n) { return n % 2 == 0; });
+     *
+     * // Map to squares
+     * auto squares = numbers.map([](int n) { return n * n; });
+     *
+     * // Reduce to sum
+     * int sum = numbers.reduce(0, [](int acc, int n) { return acc + n; });
+     * ```
+     */
     template <typename T>
     class Vector
     {
     private:
         std::vector<T> data;
+
+        // Declare friendship with all other Vector instantiations
+        template <typename U>
+        friend class Vector;
 
     public:
         // Tipos (aliases)

@@ -1,52 +1,39 @@
-# Enable Address Sanitizer and Undefined Behavior Sanitizer
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
+# Include FetchContent module
+include(FetchContent)
 
-# Create test executable
-add_executable(integration_tests integration_tests.cpp)
-
-# Link with Catch2 and required libraries
-target_link_libraries(integration_tests PRIVATE
-    Catch2::Catch2WithMain
-    pthread
+# Download and build Catch2 from GitHub
+FetchContent_Declare(
+    catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG v3.4.0 # Using the latest version as of May 2025
 )
 
-# Link with try_catch_guard if available
-if(TRY_CATCH_GUARD_AVAILABLE)
-    target_link_libraries(integration_tests PRIVATE try_catch_guard)
-    target_compile_definitions(integration_tests PRIVATE TRY_CATCH_GUARD_AVAILABLE)
+FetchContent_MakeAvailable(catch2)
+
+# Run the script to modify Catch2's signal handling
+execute_process(
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/modify_catch2.sh
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    RESULT_VARIABLE SCRIPT_RESULT
+)
+
+if(NOT SCRIPT_RESULT EQUAL 0)
+    message(WARNING "Failed to modify Catch2's signal handling. Tests may not work correctly.")
 endif()
 
-# Include directories
-target_include_directories(integration_tests PRIVATE
-    ${CMAKE_SOURCE_DIR}/src
-)
+# Enable Address Sanitizer and Undefined Behavior Sanitizer if ENABLE_ASAN is ON
+if(ENABLE_ASAN)
+    message(STATUS "Address Sanitizer enabled for tests")
 
-# Define CATCH_CONFIG_NO_POSIX_SIGNALS as an extra safety measure
-target_compile_definitions(integration_tests PRIVATE
-    CATCH_CONFIG_NO_POSIX_SIGNALS
-)
+    # Ensure ASAN runtime is linked first
+    set(CMAKE_CXX_FLAGS "-fsanitize=address,undefined -fno-omit-frame-pointer ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "-fsanitize=address,undefined ${CMAKE_EXE_LINKER_FLAGS}")
+else()
+    message(STATUS "Address Sanitizer disabled for tests")
+endif()
 
-# Register test with CTest and set environment variables for Address Sanitizer
-# Instead of using catch_discover_tests which has issues with our signal handling,
-# we'll run the tests directly with specific labels
-add_test(
-    NAME integration_tests_direct
-    COMMAND integration_tests
-)
-set_tests_properties(integration_tests_direct PROPERTIES
-    ENVIRONMENT "ASAN_OPTIONS=handle_segv=0:allow_user_segv_handler=1:detect_leaks=0"
-)
-
-# We'll skip the automatic test discovery since it's causing segfaults with our signal handling
-# include(${CMAKE_BINARY_DIR}/_deps/catch2-src/extras/Catch.cmake)
-# catch_discover_tests(integration_tests
-# TEST_PREFIX ""
-# PROPERTIES ENVIRONMENT "ASAN_OPTIONS=handle_segv=0:allow_user_segv_handler=1:detect_leaks=0"
-# )
-
-# Run try_catch_guard tests if available
-if(TRY_CATCH_GUARD_AVAILABLE)
+# Run try_catch_guard tests if available and enabled
+if(TRY_CATCH_GUARD_AVAILABLE AND BUILD_TRY_CATCH_GUARD_TESTS)
     message(STATUS "Configuring try_catch_guard tests to run with project tests")
 
     # Check if try_catch_guard has its own tests directory
@@ -60,8 +47,13 @@ if(TRY_CATCH_GUARD_AVAILABLE)
             COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR}/../external/libs/try_catch_guard && ./run_test.sh
             COMMENT "Building and running try_catch_guard tests"
         )
-        add_dependencies(integration_tests run_try_catch_guard_tests)
+
     else()
         message(WARNING "try_catch_guard library found but tests directory not available")
     endif()
+elseif(TRY_CATCH_GUARD_AVAILABLE AND NOT BUILD_TRY_CATCH_GUARD_TESTS)
+    message(STATUS "try_catch_guard tests are disabled")
 endif()
+
+# Add unit tests subdirectory
+add_subdirectory(unit)

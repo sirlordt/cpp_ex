@@ -5,34 +5,14 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Option to enable or disable tests
+# Options
 option(BUILD_TESTS "Build tests" ON)
+option(BUILD_TRY_CATCH_GUARD_TESTS "Build and run try_catch_guard tests" ON)
+option(ENABLE_ASAN "Enable Address Sanitizer" OFF)
 
 # Enable testing if BUILD_TESTS is ON
 if(BUILD_TESTS)
   enable_testing()
-endif()
-
-# Include FetchContent module
-include(FetchContent)
-
-# Download and build Catch2 from GitHub
-FetchContent_Declare(
-  catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG v3.4.0 # Using the latest version as of May 2025
-)
-FetchContent_MakeAvailable(catch2)
-
-# Run the script to modify Catch2's signal handling
-execute_process(
-  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/modify_catch2.sh
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-  RESULT_VARIABLE SCRIPT_RESULT
-)
-
-if(NOT SCRIPT_RESULT EQUAL 0)
-  message(WARNING "Failed to modify Catch2's signal handling. Tests may not work correctly.")
 endif()
 
 # Check for try_catch_guard library and add it if available
@@ -70,9 +50,19 @@ if(EXISTS "${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
   include("${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
 endif()
 
-# Enable Address Sanitizer and Undefined Behavior Sanitizer
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined -fno-omit-frame-pointer")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
+# Enable Address Sanitizer and Undefined Behavior Sanitizer if ENABLE_ASAN is ON
+if(ENABLE_ASAN)
+  message(STATUS "Address Sanitizer enabled")
+
+  # Ensure ASAN runtime is linked first
+  set(CMAKE_CXX_FLAGS "-fsanitize=address,undefined -fno-omit-frame-pointer ${CMAKE_CXX_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "-fsanitize=address,undefined ${CMAKE_EXE_LINKER_FLAGS}")
+
+  # Add compile definition to indicate ASAN is enabled
+  add_compile_definitions(ASAN_ENABLED)
+else()
+  message(STATUS "Address Sanitizer disabled")
+endif()
 
 # Add core library headers (header-only)
 add_library(cpp_ex_core INTERFACE)
